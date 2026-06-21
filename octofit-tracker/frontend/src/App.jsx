@@ -1,11 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Leaderboard from './components/Leaderboard';
+import ActivityLog from './components/ActivityLog';
+import './App.css';
+
+function Home() {
+  return (
+    <div className="hero">
+      <div className="container text-center py-5">
+        <h1 className="display-4 mb-4">🐙 OctoFit Tracker</h1>
+        <p className="lead mb-4">Track your fitness, compete with friends, and reach your goals!</p>
+        <div className="row">
+          <div className="col-md-4">
+            <div className="feature-card">
+              <h3>📊 Track Activities</h3>
+              <p>Log your workouts and monitor progress</p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="feature-card">
+              <h3>🏆 Leaderboard</h3>
+              <p>Compete with other users and climb the ranks</p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="feature-card">
+              <h3>👥 Teams</h3>
+              <p>Join teams and collaborate with friends</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  return (
+    <Router>
+      <div className="App">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div className="container">
+            <Link className="navbar-brand" to="/">🐙 OctoFit</Link>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">Home</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/activities">Activities</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/leaderboard">Leaderboard</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/activities" element={<ActivityLog />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+        </Routes>
+
+        <footer className="bg-dark text-white text-center py-4 mt-5">
+          <p>&copy; 2024 OctoFit Tracker. Keep moving, keep tracking!</p>
+        </footer>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
 
   return (
     <>

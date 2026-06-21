@@ -1,5 +1,21 @@
-// API service for frontend
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+// API service for frontend with Codespaces support
+const getApiBaseUrl = (): string => {
+  // Check for Vite environment variable first
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  // Check for Codespaces environment
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+  if (codespaceName) {
+    return `https://${codespaceName}-8000.app.github.dev/api`;
+  }
+
+  // Default to localhost
+  return 'http://localhost:8000/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export const apiService = {
   async get(endpoint: string) {

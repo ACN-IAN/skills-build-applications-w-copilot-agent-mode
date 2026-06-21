@@ -14,18 +14,30 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 
+// Codespaces-aware API URL
+const codespaceName = process.env.CODESPACE_NAME;
+const apiBaseUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : `http://localhost:${PORT}`;
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Octofit Tracker API is running' });
+  res.json({
+    status: 'OK',
+    message: 'Octofit Tracker API is running',
+    apiBaseUrl,
+    environment: process.env.NODE_ENV || 'development',
+    port: PORT,
+  });
 });
 
 // API Routes
@@ -37,5 +49,9 @@ app.use('/api/workouts', workoutsRouter);
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`\n🚀 OctoFit Tracker API Server`);
+  console.log(`   Port: ${PORT}`);
+  console.log(`   Base URL: ${apiBaseUrl}`);
+  console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`   Health Check: ${apiBaseUrl}/api/health\n`);
 });
