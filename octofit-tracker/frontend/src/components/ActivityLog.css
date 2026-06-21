@@ -1,0 +1,8 @@
+.list-group-item {
+  border-left: 4px solid #007bff;
+  transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
